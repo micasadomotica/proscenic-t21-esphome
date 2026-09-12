@@ -1,6 +1,6 @@
 # Proscenic T21 con ESPHome
 
-Integracion local de la Proscenic T21 mediante un D1 mini ESP8266 y el componente Tuya MCU de ESPHome. Validada fisicamente con ESPHome 2026.8.2. La version actual expone estados y sensores en Home Assistant, pero todavia no incluye controles de coccion.
+Integracion local de la Proscenic T21 mediante un D1 mini ESP8266 y el componente Tuya MCU de ESPHome. Validada fisicamente con ESPHome 2026.8.2. Expone estados, sensores y controles de coccion en Home Assistant.
 
 ## Configuracion
 
@@ -13,7 +13,12 @@ El paquete utiliza el componente Tuya MCU incluido en ESPHome. No necesita exter
 
 ```yaml
 packages:
-  t21: github://micasadomotica/proscenic-t21-esphome/packages/proscenic-t21.yaml@main
+  t21:
+    url: https://github.com/micasadomotica/proscenic-t21-esphome
+    files:
+      - packages/proscenic-t21.yaml
+    ref: main
+    refresh: always
 ```
 
 Posteriormente conviene fijar una etiqueta de version probada. Actualizar el repositorio no modifica el ESP hasta recompilar e instalar.
@@ -60,7 +65,17 @@ El componente Tuya envia inicializacion, consultas y mensajes de mantenimiento: 
 | 107 | Temperatura interna en Celsius, valor ambiente coherente |
 | 10 / 108 / 109 | Significado incompleto; no exponer controles |
 
-No se aplican aun estas interpretaciones a entidades de control. La siguiente fase requiere registros reales para comprobar tipos, unidades, limites y comportamiento al reiniciar.
+## Controles disponibles
+
+- Encendido y apagado (DP1).
+- Inicio y pausa de coccion (DP2).
+- Seleccion de los diez programas y modo personalizado (DP3).
+- Tiempo de coccion de 1 a 60 minutos (DP7).
+- Temperatura de 170 a 400 °F, mostrada por Home Assistant en la unidad configurada por el usuario (DP103).
+- Mantener caliente y su duracion de 1 a 60 minutos (DP104 y DP105).
+- Inicio diferido y su espera de 5 a 720 minutos (DP106 y DP6).
+
+Los controles reflejan el valor confirmado por la MCU y no usan estado optimista. Los DP10, DP108 y DP109 siguen sin exponerse porque su funcion no esta identificada.
 
 ## Fuentes
 
