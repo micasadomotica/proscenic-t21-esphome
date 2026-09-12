@@ -1,5 +1,5 @@
-# Integracion local validada en una Proscenic T21 real.
-# Los controles escriben exclusivamente datapoints documentados y observados.
+# Locally validated on a real Proscenic T21.
+# Controls only write documented and observed datapoints.
 esphome:
   min_version: 2026.8.2
 
@@ -30,108 +30,106 @@ tuya:
       then:
         - lambda: |-
             switch (x) {
-              case 0: id(t21_programa).publish_state("Ninguno"); break;
-              case 1: id(t21_programa).publish_state("Patatas"); break;
-              case 2: id(t21_programa).publish_state("Gambas"); break;
+              case 0: id(t21_programa).publish_state("None"); break;
+              case 1: id(t21_programa).publish_state("Fries"); break;
+              case 2: id(t21_programa).publish_state("Shrimp"); break;
               case 3: id(t21_programa).publish_state("Pizza"); break;
-              case 4: id(t21_programa).publish_state("Pollo"); break;
-              case 5: id(t21_programa).publish_state("Pescado"); break;
-              case 6: id(t21_programa).publish_state("Filete"); break;
+              case 4: id(t21_programa).publish_state("Chicken"); break;
+              case 5: id(t21_programa).publish_state("Fish"); break;
+              case 6: id(t21_programa).publish_state("Steak"); break;
               case 7: id(t21_programa).publish_state("Muffin"); break;
               case 8: id(t21_programa).publish_state("Bacon"); break;
-              case 9: id(t21_programa).publish_state("Precalentar"); break;
-              case 10: id(t21_programa).publish_state("Personalizado"); break;
-              default: id(t21_programa).publish_state(str_sprintf("Desconocido (%u)", x));
+              case 9: id(t21_programa).publish_state("Preheat"); break;
+              case 10: id(t21_programa).publish_state("Custom"); break;
+              default: id(t21_programa).publish_state(str_sprintf("Unknown (%u)", x));
             }
     - sensor_datapoint: 5
       datapoint_type: enum
       then:
         - lambda: |-
             switch (x) {
-              case 0: id(t21_estado).publish_state("En espera"); break;
-              case 1: id(t21_estado).publish_state("Inicio diferido"); break;
-              case 2: id(t21_estado).publish_state("Cocinando"); break;
-              case 3: id(t21_estado).publish_state("Mantener caliente"); break;
-              case 4: id(t21_estado).publish_state("Apagada"); break;
-              case 5: id(t21_estado).publish_state("Finalizada"); break;
-              default: id(t21_estado).publish_state(str_sprintf("Desconocido (%u)", x));
+              case 0: id(t21_estado).publish_state("Standby"); break;
+              case 1: id(t21_estado).publish_state("Delayed Cook"); break;
+              case 2: id(t21_estado).publish_state("Cooking"); break;
+              case 3: id(t21_estado).publish_state("Keep Warm"); break;
+              case 4: id(t21_estado).publish_state("Off"); break;
+              case 5: id(t21_estado).publish_state("Cooking Complete"); break;
+              default: id(t21_estado).publish_state(str_sprintf("Unknown (%u)", x));
             }
     - sensor_datapoint: 103
       datapoint_type: int
       then:
         - lambda: |-
-            id(t21_temperatura_control).publish_state(
-              roundf((static_cast<float>(x) - 32.0f) * 5.0f / 9.0f)
-            );
+            id(t21_temperatura_control).publish_state(static_cast<float>(x));
 
 binary_sensor:
   - platform: status
-    name: Conexion ESPHome
+    name: ESPHome Connection
     entity_category: diagnostic
   - platform: tuya
-    name: Encendida
+    name: Fryer Powered
     sensor_datapoint: 1
     device_class: power
     icon: mdi:flash
   - platform: tuya
-    name: Coccion iniciada
+    name: Cooking Started
     sensor_datapoint: 2
     device_class: running
     icon: mdi:play
   - platform: tuya
-    name: Cesta retirada
+    name: Basket Removed
     sensor_datapoint: 102
     device_class: opening
     icon: mdi:basket-remove
   - platform: tuya
-    name: Mantener caliente activo
+    name: Keep Warm Active
     sensor_datapoint: 104
     icon: mdi:pot-steam
   - platform: tuya
-    name: Inicio diferido activo
+    name: Delayed Cook Active
     sensor_datapoint: 106
     icon: mdi:calendar-clock
 
 switch:
   - platform: tuya
-    name: Encendido
+    name: Activate Fryer
     switch_datapoint: 1
     icon: mdi:flash
   - platform: tuya
-    name: Iniciar o pausar coccion
+    name: Start/Pause Cooking
     switch_datapoint: 2
     icon: mdi:flash
   - platform: tuya
-    name: Mantener caliente
+    name: Keep Warm
     switch_datapoint: 104
     icon: mdi:flash
   - platform: tuya
-    name: Inicio diferido
+    name: Delayed Cook
     switch_datapoint: 106
     icon: mdi:flash
 
 select:
   - platform: tuya
-    name: Seleccionar programa
+    name: Cookbook
     enum_datapoint: 3
     optimistic: false
     icon: mdi:chef-hat
     options:
-      0: Ninguno
-      1: Patatas
-      2: Gambas
+      0: None
+      1: Fries
+      2: Shrimp
       3: Pizza
-      4: Pollo
-      5: Pescado
-      6: Filete
+      4: Chicken
+      5: Fish
+      6: Steak
       7: Muffin
       8: Bacon
-      9: Precalentar
-      10: Personalizado
+      9: Preheat
+      10: Custom
 
 number:
   - platform: tuya
-    name: Ajustar tiempo de coccion
+    name: Cooking Time Set
     number_datapoint: 7
     min_value: 1
     max_value: 60
@@ -141,11 +139,11 @@ number:
     icon: mdi:timer-outline
   - platform: template
     id: t21_temperatura_control
-    name: Ajustar temperatura
-    min_value: 77
-    max_value: 204
+    name: Cooking Temperature Set
+    min_value: 170
+    max_value: 400
     step: 1
-    unit_of_measurement: "°C"
+    unit_of_measurement: "°F"
     device_class: temperature
     mode: box
     icon: mdi:thermometer
@@ -154,10 +152,10 @@ number:
       - lambda: |-
           id(t21_mcu).set_integer_datapoint_value(
             103,
-            static_cast<uint32_t>(roundf(x * 9.0f / 5.0f + 32.0f))
+            static_cast<uint32_t>(roundf(x))
           );
   - platform: tuya
-    name: Minutos de inicio diferido
+    name: Delayed Cook Time Set
     number_datapoint: 6
     min_value: 5
     max_value: 720
@@ -166,7 +164,7 @@ number:
     mode: box
     icon: mdi:calendar-clock
   - platform: tuya
-    name: Duracion de mantener caliente
+    name: Keep Warm Time Set
     number_datapoint: 105
     min_value: 1
     max_value: 60
@@ -177,61 +175,61 @@ number:
 
 sensor:
   - platform: tuya
-    name: Tiempo configurado
+    name: Configured Cooking Time
     sensor_datapoint: 7
     unit_of_measurement: min
     accuracy_decimals: 0
     icon: mdi:timer-outline
   - platform: tuya
-    name: Tiempo restante
+    name: Cooking Time Remaining
     sensor_datapoint: 8
     unit_of_measurement: min
     accuracy_decimals: 0
     icon: mdi:eye
   - platform: tuya
-    name: Temperatura configurada
+    name: Configured Temperature
     sensor_datapoint: 103
-    unit_of_measurement: "°C"
+    unit_of_measurement: "°F"
     device_class: temperature
     accuracy_decimals: 0
     icon: mdi:thermometer
-    filters:
-      - lambda: return roundf((x - 32.0f) * 5.0f / 9.0f);
   - platform: tuya
-    name: Temperatura interna
+    name: Internal Temperature
     sensor_datapoint: 107
-    unit_of_measurement: "°C"
+    unit_of_measurement: "°F"
     device_class: temperature
     state_class: measurement
     accuracy_decimals: 0
     icon: mdi:thermometer
+    filters:
+      - lambda: return roundf(x * 9.0f / 5.0f + 32.0f);
   - platform: tuya
-    name: Codigo de error
+    name: Error Code
     sensor_datapoint: 12
     accuracy_decimals: 0
     entity_category: diagnostic
     icon: mdi:alert-circle-outline
   - platform: wifi_signal
-    name: Senal WiFi
+    name: WiFi Signal
     update_interval: 60s
     entity_category: diagnostic
     icon: mdi:wifi
   - platform: uptime
-    name: Tiempo encendido ESP
+    name: ESP Uptime
     entity_category: diagnostic
     icon: mdi:clock-outline
 
 text_sensor:
   - platform: template
     id: t21_programa
-    name: Programa
+    name: Program
     update_interval: never
     icon: mdi:chef-hat
   - platform: template
     id: t21_estado
-    name: Estado de coccion
+    name: Cooking Mode
     update_interval: never
     icon: mdi:pot-steam
   - platform: version
-    name: Version ESPHome
+    name: ESPHome Version
     entity_category: diagnostic
