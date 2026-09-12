@@ -1,0 +1,44 @@
+# Diagnostico: sin entidades ni acciones que escriban consignas de coccion.
+esphome:
+  min_version: 2026.8.2
+
+esp8266:
+  board: d1_mini
+  restore_from_flash: false
+
+logger:
+  baud_rate: 0
+  level: DEBUG
+  logs:
+    tuya: DEBUG
+
+uart:
+  id: t21_uart
+  tx_pin: GPIO1
+  rx_pin: GPIO3
+  baud_rate: 9600
+  parity: NONE
+  stop_bits: 1
+
+tuya:
+  id: t21_mcu
+  uart_id: t21_uart
+
+binary_sensor:
+  - platform: status
+    name: Conexion ESPHome
+    entity_category: diagnostic
+
+sensor:
+  - platform: wifi_signal
+    name: Senal WiFi
+    update_interval: 60s
+    entity_category: diagnostic
+  - platform: uptime
+    name: Tiempo encendido ESP
+    entity_category: diagnostic
+
+text_sensor:
+  - platform: version
+    name: Version ESPHome
+    entity_category: diagnostic
