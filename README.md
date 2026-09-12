@@ -6,7 +6,7 @@ Thanks to [Blakadder](https://blakadder.com/) for researching the Proscenic T21,
 
 [Español](#español) · [English](#english)
 
-![Wemos D1 Mini instalado en la Proscenic T21](images/wemos-installed.jpg)
+<p align="center"><img src="images/wemos-installed.jpg" alt="Wemos D1 Mini instalado en la Proscenic T21" width="520"></p>
 
 ## Español
 
@@ -45,7 +45,7 @@ No es necesario desoldar el módulo WR3. La placa Wi-Fi original está separada 
 4. Desconecta su conector PH2.54 de cuatro pines.
 5. Conserva la placa original por si quieres restaurar el aparato.
 
-![Placa Wi-Fi WR3 original y conector PH2.54](images/original-wifi-module.jpg)
+<p align="center"><img src="images/original-wifi-module.jpg" alt="Placa Wi-Fi WR3 original y conector PH2.54" width="520"></p>
 
 ### Cableado
 
@@ -58,13 +58,13 @@ Conecta los cuatro cables cruzando TX y RX:
 | GND | G / GND |
 | 5 V | 5V / VIN |
 
-![Orden del conector PH2.54 y conexión UART](images/ph254-pinout.jpg)
+<p align="center"><img src="images/ph254-pinout.jpg" alt="Orden del conector PH2.54 y conexión UART" width="520"></p>
 
 Identifica los pines por su posición y función; los colores de los cables pueden variar. En la unidad probada se verificó el orden con un multímetro. No conectes 5 V al pin `3V3`.
 
 Realiza el primer flasheo por USB con el ESP8266 separado de la freidora. Desconecta el USB antes de conectarlo al PH2.54. No alimentes la placa simultáneamente desde el USB y desde la freidora.
 
-![Wemos D1 Mini conectado con cuatro cables Dupont](images/wemos-installed.jpg)
+<p align="center"><img src="images/wemos-installed.jpg" alt="Wemos D1 Mini conectado con cuatro cables Dupont" width="520"></p>
 
 ### Elegir idioma y temperatura
 
@@ -189,7 +189,7 @@ The WR3 module does not need to be desoldered. The original Wi-Fi board is separ
 4. Unplug its four-pin PH2.54 connector.
 5. Keep the original board in case you want to restore the appliance.
 
-![Original WR3 Wi-Fi board and PH2.54 connector](images/original-wifi-module.jpg)
+<p align="center"><img src="images/original-wifi-module.jpg" alt="Original WR3 Wi-Fi board and PH2.54 connector" width="520"></p>
 
 ### Wiring
 
@@ -202,13 +202,13 @@ Use the four wires and cross TX and RX:
 | GND | G / GND |
 | 5 V | 5V / VIN |
 
-![PH2.54 connector order and UART wiring](images/ph254-pinout.jpg)
+<p align="center"><img src="images/ph254-pinout.jpg" alt="PH2.54 connector order and UART wiring" width="520"></p>
 
 Identify the pins by position and function because wire colors may differ. The order was checked with a multimeter on the tested unit. Never connect 5 V to the `3V3` pin.
 
 Perform the first USB flash while the ESP8266 is disconnected from the air fryer. Unplug USB before connecting the PH2.54 cable. Do not power the board from USB and the air fryer at the same time.
 
-![Wemos D1 Mini connected with four Dupont wires](images/wemos-installed.jpg)
+<p align="center"><img src="images/wemos-installed.jpg" alt="Wemos D1 Mini connected with four Dupont wires" width="520"></p>
 
 ### Language and temperature choices
 
