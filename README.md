@@ -1,6 +1,6 @@
 # Proscenic T21 con ESPHome
 
-Primera fase: diagnostico Tuya MCU con D1 mini ESP8266. Version objetivo ESPHome 2026.8.2. Todavia no validado fisicamente en la freidora. No incluye controles de coccion.
+Integracion local de la Proscenic T21 mediante un D1 mini ESP8266 y el componente Tuya MCU de ESPHome. Validada fisicamente con ESPHome 2026.8.2. La version actual expone estados y sensores en Home Assistant, pero todavia no incluye controles de coccion.
 
 ## Configuracion
 
@@ -46,18 +46,18 @@ UART inicial: 9600, 8N1. Es un punto de partida pendiente de confirmar con regis
 
 El componente Tuya envia inicializacion, consultas y mensajes de mantenimiento: este diagnostico no es una escucha pasiva. No define escrituras de consignas, restauracion de coccion ni controles de calentamiento. Los sensores HA iniciales son de diagnostico del ESP; los datos de la freidora se inspeccionan en Logs.
 
-## Mapa de referencia pendiente de validacion
+## Mapa observado en la unidad probada
 
 | DP | Funcion propuesta por Blakadder |
 | --- | --- |
-| 1 / 2 | Encendido / inicio-pausa |
-| 3 / 5 | Programa / estado de coccion |
+| 1 / 2 | Encendido / inicio-pausa, confirmados |
+| 3 / 5 | Programa / estado de coccion, confirmados |
 | 6 / 7 / 8 | Inicio diferido / duracion / minutos restantes |
 | 12 | Errores (bitmask) |
-| 102 | Cesta presente; polaridad pendiente |
-| 103 | Consigna en Fahrenheit; la tabla original indica tipo booleano pero los comandos usan entero: verificar |
+| 102 | `ON` con la cesta retirada y `OFF` con la cesta insertada |
+| 103 | Consigna en Fahrenheit, confirmada como entero |
 | 104 / 105 / 106 | Mantener caliente / duracion / habilitar inicio diferido |
-| 107 | Temperatura interna, Celsius segun referencia |
+| 107 | Temperatura interna en Celsius, valor ambiente coherente |
 | 10 / 108 / 109 | Significado incompleto; no exponer controles |
 
 No se aplican aun estas interpretaciones a entidades de control. La siguiente fase requiere registros reales para comprobar tipos, unidades, limites y comportamiento al reiniciar.
@@ -78,4 +78,12 @@ Adaptacion de la informacion del protocolo publicada por Blakadder. Las fotos de
 - RAM: 31.784 / 81.920 bytes (38,8 %).
 - Flash: 437.655 / 1.044.464 bytes (41,9 %).
 - Se compilo una copia del ejemplo y del paquete con secretos ficticios y API cifrada. No se incluye ese binario: hay que compilar con los secretos propios en Device Builder.
-- Pendiente: carga en placa y validacion de la comunicacion con la T21.
+## Validacion fisica
+
+- Comunicacion Tuya MCU estable a 9600 baudios por GPIO1/GPIO3.
+- Product ID recibido: `ngdn90sk1yqmk9ww`, firmware MCU `1.0.2`.
+- Cesta retirada: DP102 cambia a `ON`; cesta insertada: vuelve a `OFF`.
+- Programa de patatas: DP3=1, 18 minutos y 399 °F en la unidad probada.
+- Programa de gambas: DP3=2, 8 minutos y 359 °F en la unidad probada.
+- Los cambios manuales de tiempo y temperatura se reflejan en DP7 y DP103.
+- El apagado devuelve DP1 y DP2 a `OFF`, DP3 a 0 y DP5 a 4.
