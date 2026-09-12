@@ -56,6 +56,13 @@ tuya:
               case 5: id(t21_estado).publish_state("Finalizada"); break;
               default: id(t21_estado).publish_state(str_sprintf("Desconocido (%u)", x));
             }
+    - sensor_datapoint: 103
+      datapoint_type: int
+      then:
+        - lambda: |-
+            id(t21_temperatura_control).publish_state(
+              roundf((static_cast<float>(x) - 32.0f) * 5.0f / 9.0f)
+            );
 
 binary_sensor:
   - platform: status
@@ -126,16 +133,23 @@ number:
     unit_of_measurement: min
     mode: box
     icon: mdi:timer-sand
-  - platform: tuya
+  - platform: template
+    id: t21_temperatura_control
     name: Ajustar temperatura
-    number_datapoint: 103
-    min_value: 170
-    max_value: 400
+    min_value: 77
+    max_value: 204
     step: 1
-    unit_of_measurement: "°F"
+    unit_of_measurement: "°C"
     device_class: temperature
     mode: box
     icon: mdi:thermometer
+    optimistic: false
+    set_action:
+      - lambda: |-
+          id(t21_mcu).set_integer_datapoint_value(
+            103,
+            static_cast<uint32_t>(roundf(x * 9.0f / 5.0f + 32.0f))
+          );
   - platform: tuya
     name: Minutos de inicio diferido
     number_datapoint: 6
@@ -169,9 +183,11 @@ sensor:
   - platform: tuya
     name: Temperatura configurada
     sensor_datapoint: 103
-    unit_of_measurement: "°F"
+    unit_of_measurement: "°C"
     device_class: temperature
     accuracy_decimals: 0
+    filters:
+      - lambda: return roundf((x - 32.0f) * 5.0f / 9.0f);
   - platform: tuya
     name: Temperatura interna
     sensor_datapoint: 107
