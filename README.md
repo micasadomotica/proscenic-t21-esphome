@@ -6,8 +6,6 @@ Thanks to [Blakadder](https://blakadder.com/) for researching the Proscenic T21,
 
 [Español](#español) · [English](#english)
 
-<p align="center"><img src="images/wemos-installed.jpg" alt="Wemos D1 Mini instalado en la Proscenic T21" width="520"></p>
-
 ## Español
 
 Integración local de la freidora de aire Proscenic T21 mediante ESPHome. Sustituye la placa Wi-Fi WR3 original por una placa ESP8266 y expone en Home Assistant todos los estados y controles identificados.
