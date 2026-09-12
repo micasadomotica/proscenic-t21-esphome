@@ -71,7 +71,7 @@ El componente Tuya envia inicializacion, consultas y mensajes de mantenimiento: 
 - Inicio y pausa de coccion (DP2).
 - Seleccion de los diez programas y modo personalizado (DP3).
 - Tiempo de coccion de 1 a 60 minutos (DP7).
-- Temperatura de 170 a 400 °F, mostrada por Home Assistant en la unidad configurada por el usuario (DP103).
+- Temperatura de 77 a 204 °C en pasos enteros. El ESP8266 la convierte al valor Fahrenheit que espera la freidora (DP103).
 - Mantener caliente y su duracion de 1 a 60 minutos (DP104 y DP105).
 - Inicio diferido y su espera de 5 a 720 minutos (DP106 y DP6).
 
