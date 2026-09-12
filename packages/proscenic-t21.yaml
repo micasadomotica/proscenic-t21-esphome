@@ -1,5 +1,5 @@
-# Entidades de lectura validadas en una Proscenic T21 real.
-# Esta fase no incluye acciones que escriban consignas de coccion.
+# Integracion local validada en una Proscenic T21 real.
+# Los controles escriben exclusivamente datapoints documentados y observados.
 esphome:
   min_version: 2026.8.2
 
@@ -79,6 +79,81 @@ binary_sensor:
   - platform: tuya
     name: Inicio diferido activo
     sensor_datapoint: 106
+
+switch:
+  - platform: tuya
+    name: Encendido
+    switch_datapoint: 1
+    icon: mdi:power
+  - platform: tuya
+    name: Iniciar o pausar coccion
+    switch_datapoint: 2
+    icon: mdi:play-pause
+  - platform: tuya
+    name: Mantener caliente
+    switch_datapoint: 104
+    icon: mdi:heat-wave
+  - platform: tuya
+    name: Inicio diferido
+    switch_datapoint: 106
+    icon: mdi:timer-outline
+
+select:
+  - platform: tuya
+    name: Seleccionar programa
+    enum_datapoint: 3
+    optimistic: false
+    options:
+      0: Ninguno
+      1: Patatas
+      2: Gambas
+      3: Pizza
+      4: Pollo
+      5: Pescado
+      6: Filete
+      7: Muffin
+      8: Bacon
+      9: Precalentar
+      10: Personalizado
+
+number:
+  - platform: tuya
+    name: Ajustar tiempo de coccion
+    number_datapoint: 7
+    min_value: 1
+    max_value: 60
+    step: 1
+    unit_of_measurement: min
+    mode: box
+    icon: mdi:timer-sand
+  - platform: tuya
+    name: Ajustar temperatura
+    number_datapoint: 103
+    min_value: 170
+    max_value: 400
+    step: 1
+    unit_of_measurement: "°F"
+    device_class: temperature
+    mode: box
+    icon: mdi:thermometer
+  - platform: tuya
+    name: Minutos de inicio diferido
+    number_datapoint: 6
+    min_value: 5
+    max_value: 720
+    step: 5
+    unit_of_measurement: min
+    mode: box
+    icon: mdi:timer-plus-outline
+  - platform: tuya
+    name: Duracion de mantener caliente
+    number_datapoint: 105
+    min_value: 1
+    max_value: 60
+    step: 1
+    unit_of_measurement: min
+    mode: box
+    icon: mdi:timer-outline
 
 sensor:
   - platform: tuya
